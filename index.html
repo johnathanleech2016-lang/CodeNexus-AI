@@ -1,112 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeNexus AI | The Ultimate Builder</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        /* Custom scrollbar adjustments for a clean dark mode UI */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0f0f12; }
-        ::-webkit-scrollbar-thumb { background: #1e1e24; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #31313a; }
-    </style>
+<meta charset="UTF-8">
+<title>CodeNexus Test</title>
+<style>
+body{
+background:#0a0a0c;
+color:white;
+font-family:Arial,sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+</style>
 </head>
-<body class="bg-[#0a0a0c] text-slate-200 font-['Inter'] overflow-hidden">
-    <div class="flex h-screen w-full">
-        <!-- Sidebar: Prompt Area -->
-        <aside class="w-80 border-r border-slate-800 bg-[#0f0f12] flex flex-col p-4 space-y-4">
-            <div class="flex items-center space-x-2 mb-6">
-                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                    <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
-                </div>
-                <h1 class="text-xl font-bold tracking-tight text-white">CodeNexus</h1>
-            </div>
-            
-            <div class="flex-1 flex flex-col">
-                <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Generation Prompt</label>
-                <textarea id="promptInput" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none resize-none transition-all placeholder:text-slate-600" placeholder="e.g., Build a modern SaaS landing page with a glassmorphism hero section..."></textarea>
-                <button id="generateBtn" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center space-x-2 transition-all active:scale-95 shadow-lg shadow-indigo-500/20">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i>
-                    <span>Build Now</span>
-                </button>
-            </div>
-
-            <div class="bg-slate-900/50 border border-slate-800 rounded-lg p-3">
-                <p class="text-[10px] text-slate-500 uppercase font-bold mb-2">Suggestions</p>
-                <div class="flex flex-wrap gap-2">
-                    <button class="suggest-btn text-[11px] bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded border border-slate-700 transition-colors">Portfolio Site</button>
-                    <button class="suggest-btn text-[11px] bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded border border-slate-700 transition-colors">Auth Form</button>
-                    <button class="suggest-btn text-[11px] bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded border border-slate-700 transition-colors">Dashboard</button>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content: Code and Preview -->
-        <main class="flex-1 flex flex-col">
-            <!-- Header Tabs -->
-            <header class="h-14 border-b border-slate-800 bg-[#0f0f12] flex items-center justify-between px-6">
-                <div class="flex space-x-2 h-full items-center">
-                    <button id="previewTab" class="flex items-center space-x-2 px-4 h-full border-b-2 border-indigo-500 text-white font-medium text-sm transition-all">
-                        <i data-lucide="eye" class="w-4 h-4"></i>
-                        <span>Live Preview</span>
-                    </button>
-                    <button id="codeTab" class="flex items-center space-x-2 px-4 h-full border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-medium text-sm transition-all">
-                        <i data-lucide="code-2" class="w-4 h-4"></i>
-                        <span>Source Code</span>
-                    </button>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <button id="copyBtn" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all" title="Copy Code">
-                        <i data-lucide="copy" class="w-4 h-4"></i>
-                    </button>
-                    <button class="bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs py-1.5 px-3 rounded-lg border border-slate-700 transition-all flex items-center space-x-1">
-                        <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                        <span>Export</span>
-                    </button>
-                </div>
-            </header>
-
-            <!-- Display Workspace -->
-            <div class="flex-1 relative bg-[#060608]">
-                <!-- Preview Canvas Window -->
-                <div id="previewContainer" class="absolute inset-0 w-full h-full p-4 flex items-center justify-center">
-                    <div class="w-full h-full bg-white rounded-xl shadow-2xl overflow-hidden border border-slate-800 flex items-center justify-center text-slate-500">
-                        <iframe id="previewFrame" class="w-full h-full bg-white" srcdoc="<div style='font-family:sans-serif; text-align:center; padding-top:20%; color:#64748b;'><h3>Your generated application preview will appear here</h3><p style='font-size:14px;'>Enter a prompt and click 'Build Now'</p></div>"></iframe>
-                    </div>
-                </div>
-
-                <!-- Code Workspace Window -->
-                <div id="codeContainer" class="absolute inset-0 w-full h-full p-4 hidden">
-                    <pre class="w-full h-full bg-[#0c0c0f] border border-slate-800 rounded-xl p-4 font-['Fira_Code'] text-sm text-emerald-400 overflow-auto whitespace-pre-wrap"><code id="codeViewer">&lt;!-- Code structure outputs here --&gt;</code></pre>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Frontend Interactive Logic -->
-    <script>
-        // Initialize Lucide Vector Icons
-        lucide.createIcons();
-
-        // DOM Element Cache
-        const promptInput = document.getElementById('promptInput');
-        const generateBtn = document.getElementById('generateBtn');
-        const suggestBtns = document.querySelectorAll('.suggest-btn');
-        const previewTab = document.getElementById('previewTab');
-        const codeTab = document.getElementById('codeTab');
-        const previewContainer = document.getElementById('previewContainer');
-        const codeContainer = document.getElementById('codeContainer');
-        const previewFrame = document.getElementById('previewFrame');
-        const codeViewer = document.getElementById('codeViewer');
-        const copyBtn = document.getElementById('copyBtn');
-
-        // Mock Component Database
-        const mockTemplates = {
-            'Portfolio Site': `<!DOCTYPE html>\n<html>\n<head>\n<script src="https://cdn.tailwindcss.com"><\/script>\n<\/head>\n<body class="bg-slate-900 text-white flex flex-col items-center justify-center min-h-screen font-sans">\n<header class="text-center space-y-4">\n<img src="https://unsplash.com" class="rounded-full mx-auto border-4 border-indigo-500 shadow-xl" />\n<h1 class="text-4xl font-extrabold tracking-tight">Jane Dev</h1>\n<p class="text-indigo-400 text-lg font-medium">Full Stack Cloud Architect</p>\n<div class="flex justify-center gap-3 mt-4">\n<span class="bg-slate-800 px-3 py-1 rounded-full text-xs border border-slate-700">TypeScript</span>\n<span class="bg-slate-800 px-3 py-1 rounded-full text-xs border border-slate-700">Next.js</span>\n<span class="bg-slate-800 px-3 py-1 rounded-full text-xs border border-slate-700">AWS</span>\n<\/div>\n<\/header>\n<\/body>\n<\/html>`,
-            'Auth Form': `<!DOCTYPE html>\n<html>\n<head>\n<script src="https://cdn.tailwindcss.com"><\/script>\n<\/head>\n<body class="bg-[#0f172a] flex items-center justify-center min-h-screen">\n<div class="bg-[#1e293b] p-8 rounded-2xl shadow-2xl w-full max-w-md border border-slate-700/50">\n<h2 class="text-2xl font-bold text-white text-center mb-1">Welcome Back</h2>\n<p class="text-slate-400 text-center text-sm mb-6">Enter your data to access the panel</p>\n<form class="space-y-4" onsubmit="event.preventDefault();">\n<div><label class="block text-xs font-semibold text-slate-300 uppercase mb-2">Email Address</label><input type="email" placeholder="name@company.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm outline-none focus:ring-2 focus:ring-indigo-500" /></div>\n<div><label class="block text-xs font-semibold text-slate-300 uppercase mb-2">Password</label><input type="password" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm outline-none focus:ring-2 focus:ring-indigo-500" /></div>\n<button class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl transition-all mt-2">Sign In</button>\n<\/form>\n<\/div>\n<\/body>\n<\/html>`,
+<body>
+<h1>🚀 CodeNexus Is Live</h1>
+</body>
+</html>
